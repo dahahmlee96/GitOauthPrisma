@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import Router from 'next/router';
+import { getSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next';
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getSession({ req });
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+};
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState('');
