@@ -13,6 +13,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         permanent: false,
       },
     };
+  } else {
+    return {
+      props: { session },
+    };
   }
 };
 
