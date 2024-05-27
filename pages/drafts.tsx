@@ -23,8 +23,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
     },
   });
+  // Convert Date objects to ISO strings
+  const serializedDrafts = drafts.map(draft => ({
+    ...draft,
+    createdAt: draft.createdAt.toISOString(),
+    updatedAt: draft.updatedAt.toISOString(),
+  }));
+
   return {
-    props: { drafts },
+    props: { drafts: serializedDrafts },
   };
 };
 

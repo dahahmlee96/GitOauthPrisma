@@ -1,7 +1,7 @@
-import React from "react"
-import { GetStaticProps } from "next"
-import Layout from "../components/Layout"
-import Post, { PostProps } from "../components/Post"
+import React from "react";
+import { GetStaticProps } from "next";
+import Layout from "../components/Layout";
+import Post, { PostProps } from "../components/Post";
 import prisma from '../lib/prisma';
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -13,8 +13,16 @@ export const getStaticProps: GetStaticProps = async () => {
       },
     },
   });
+
+  // Convert Date objects to ISO strings
+  const serializedPosts = feed.map(post => ({
+    ...post,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  }));
+
   return {
-    props: { feed },
+    props: { feed: serializedPosts },
     revalidate: 10,
   };
 };
@@ -54,4 +62,4 @@ const Blog: React.FC<Props> = (props) => {
   )
 }
 
-export default Blog
+export default Blog;
