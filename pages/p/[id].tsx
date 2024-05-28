@@ -18,6 +18,10 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
+
+  post.createdAt = post.createdAt.toISOString();
+  post.updatedAt = post.updatedAt.toISOString();
+
   return {
     props: post,
   };
@@ -55,6 +59,8 @@ const Post: React.FC<PostProps> = (props) => {
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={props.content} />
+        <h5>{props.createdAt}</h5>
+        <h5>{props.updatedAt}</h5>
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
         )}
